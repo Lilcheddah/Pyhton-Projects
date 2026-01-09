@@ -1,0 +1,111 @@
+#this is a rogue like built with classes
+import random
+import time
+playagain = True
+class player:
+    def __init__(self):
+        self.health = 100
+        self.maxhealth = 100
+        self.damage = 20
+        self.defense = 20
+        self.level = 1
+        self.killcount = 0
+
+    def attack(self,enemy):
+        enemy.take_damage(self.damage)
+
+    def playerdamage(self):
+        self.health -= enemy.damage
+        if self.health < 0:
+            self.health = 0
+
+        
+
+    def levelup(self):
+        self.level += 1
+        print(f"Level Up! You are now level {self.level}")
+        self.choose_upgrade()
+
+    def choose_upgrade(self):
+        print('Choose an Upgrade 1-3:')    
+        print('1: Attack Upgrade +5 Damage')
+        print('2: Health Upgrade +15 Health')
+        print('3: Defense Upgrade +10 Defense')
+
+        choice = input("> ")
+        if choice == "1":
+            self.damage += 5
+            print('Damage Increased!')
+            
+        elif choice == "2":
+            self.maxhealth += 15
+            self.health += 15
+            print('Health Increased!')
+        elif choice == "3":
+            self.defense += 10
+            print('Defense Upgraded!')
+
+class Enemy:
+    def __init__(self):
+        self.health = 100
+        self.damage = 15
+        self.heal = 10
+
+    
+    def enemyturn(self,player):
+        move = random.randint(1,2)
+        if move == 1:
+            player.health -= (self.damage)
+            player.playerdamage()
+            print('Enemy Deals ',self.damage,' Damage')
+            print('Your health is now ',player.health)
+
+        elif move == 2:
+            self.health += self.heal
+            print('Enemy Heals for', self.heal )
+            time.sleep(1)
+            print('Enemy health is Now', self.health)
+            time.sleep(1)
+
+    
+    def take_damage(self,amount):
+        self.health -= amount
+        if self.health < 0:
+            self.health = 0
+    
+    def is_alive(self):
+        return self.health > 0
+
+#play again loop  
+while playagain:
+    user = player()
+    enemy = Enemy()
+
+#game loop
+    while user.health > 0:
+        print('Enemy Health ',enemy.health)
+
+        user.attack(enemy)
+    
+        print('Youve Dealt',user.damage, 'damage ')
+        time.sleep(1)
+        print('Your enemy now has ',enemy.health,' health' )
+        time.sleep(1)
+        if enemy.health <= 0 :
+            
+            user.killcount += 1
+            print('Your Killcount is ',user.killcount)
+            time.sleep(1)
+            user.levelup()
+            enemy.health = int(100*(1 + user.level *.05))
+
+        enemy.enemyturn(user)
+
+    choice = input('Play again? (y/n): ').lower()
+    if choice != 'y':
+        playagain = False
+        
+    
+
+
+
